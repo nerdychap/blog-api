@@ -36,7 +36,7 @@ A modern RESTful API for a blog application built with Node.js, Express, and Typ
 1. **Clone the repository**
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/nerdychap/blog-api
    cd blog-api
    ```
 
@@ -119,18 +119,4 @@ src/
 ├── utils/           # Utility functions
 ├── app.ts           # Express app setup
 └── index.ts         # Server entry point
-```
-
-## 🧪 Development
-
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Database operations
-npx prisma studio    # Open database GUI
-npx prisma migrate dev  # Create new migration
 ```

@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../config/env.config";
-import prisma from "../../prisma/prismaClient";
-import { comparePassword, hashPassword } from "../../utils/passwordUtils";
+import { JWT_SECRET } from "../config/env.config";
+import prisma from "../prisma/prismaClient";
+import { comparePassword, hashPassword } from "../utils/passwordUtils";
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
   const { email, firstName, lastName, password } = req.body;

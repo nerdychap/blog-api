@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { createPost, deletePost, getPostById, getPosts, updatePost } from "../../controllers/posts";
-import authenticationMiddleware from "../../middleware/authentication";
-import { checkPostOwnership } from "../../middleware/authorization/posts";
+import { createPost, deletePost, getPostById, getPosts, updatePost } from "../controllers/postsController";
+import authenticationMiddleware from "../middleware/authentication";
+import { checkPostOwnership } from "../middleware/authorization/posts";
 
 const postRouter = Router();
 

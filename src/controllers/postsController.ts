@@ -43,7 +43,7 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
       data: {
         title,
         content,
-        authorId: id,
+        author: { connect: { id } },
       },
     });
 

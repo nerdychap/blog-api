@@ -10,7 +10,7 @@ import { checkCommentOwnership } from "../middleware/authorization/comments";
 
 const commentRouter = Router();
 
-commentRouter.post("/", authMiddleware, createComment);
+commentRouter.post("/post/:postId", authMiddleware, createComment);
 commentRouter.get("/post/:postId", getCommentsByPost);
 commentRouter.delete("/:commentId", authMiddleware, checkCommentOwnership, deleteComment);
 commentRouter.patch("/:commentId", authMiddleware, checkCommentOwnership, updateComment);

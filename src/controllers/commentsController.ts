@@ -1,4 +1,3 @@
-// comments controller.ts
 import { Request, Response, NextFunction } from "express";
 import prisma from "../prisma/prismaClient";
 

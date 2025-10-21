@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import prisma from "../../prisma/prismaClient";
 
-// comments ownership middleware
 export const checkCommentOwnership = async (req: Request, res: Response, next: NextFunction) => {
   const { commentId } = req.params;
   const userId = req.user?.id;

@@ -17,7 +17,7 @@ A modern RESTful API for a blog application built with Node.js, Express, and Typ
 
 - User registration and authentication
 - JWT-based authentication and authorization
-- CRUD operations for users and blog posts
+- CRUD operations for users, blog posts and comments
 - Password encryption with bcrypt
 - Rate limiting and security headers
 - Type-safe database operations with Prisma
@@ -98,6 +98,13 @@ The API will be available at `http://localhost:3000`
 - `GET /api/v1/posts/:id` - Get post by ID
 - `PUT /api/v1/posts/:id` - Update post (protected)
 - `DELETE /api/v1/posts/:id` - Delete post (protected)
+
+### Comments
+
+- `GET /api/v1/comments/post/:postId` - Get all comments for a post
+- `POST /api/v1/comments` - Create a comment (protected)
+- `PATCH /api/v1/comments/:id` - Update a comment (protected)
+- `DELETE /api/v1/comments/:id` - Delete a comment (protected)
 
 ## 🔐 Authentication
 

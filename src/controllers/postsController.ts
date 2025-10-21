@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import prisma from "../../prisma/prismaClient";
+import prisma from "../prisma/prismaClient";
 
 export const getPosts = async (_req: Request, res: Response, next: NextFunction) => {
   try {
@@ -16,6 +16,7 @@ export const getPostById = async (req: Request, res: Response, next: NextFunctio
   try {
     const post = await prisma.post.findUnique({
       where: { id: Number(id) },
+      include: { comments: true },
     });
 
     if (!post) {

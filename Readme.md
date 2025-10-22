@@ -102,7 +102,7 @@ The API will be available at `http://localhost:3000`
 ### Comments
 
 - `GET /api/v1/comments/post/:postId` - Get all comments for a post
-- `POST /api/v1/comments` - Create a comment (protected)
+- `POST /api/v1/comments/post/:postId` - Create a comment (protected)
 - `PATCH /api/v1/comments/:id` - Update a comment (protected)
 - `DELETE /api/v1/comments/:id` - Delete a comment (protected)
 

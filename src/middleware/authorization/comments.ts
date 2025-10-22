@@ -23,3 +23,29 @@ export const checkCommentOwnership = async (req: Request, res: Response, next: N
     next(error);
   }
 };
+
+export const validateCommentPostAssociation = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { commentId, postId } = req.params;
+
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: { id: Number(commentId) },
+    });
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    if (comment.postId !== Number(postId)) {
+      return res.status(400).json({ message: "Comment does not belong to the specified post" });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

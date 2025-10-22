@@ -7,10 +7,11 @@ A modern RESTful API for a blog application built with Node.js, Express, and Typ
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Language**: TypeScript
-- **Database**: sqlite
+- **Database**: SQLite
 - **ORM**: Prisma
 - **Authentication**: JWT (JSON Web Tokens)
-- **Password Hashing**: bcrypt
+- **Password Hashing**: bcryptjs
+- **Validation**: express-validator
 - **Security**: Helmet, Rate Limiting
 
 ## ✨ Features
@@ -18,17 +19,20 @@ A modern RESTful API for a blog application built with Node.js, Express, and Typ
 - User registration and authentication
 - JWT-based authentication and authorization
 - CRUD operations for users, blog posts and comments
-- Password encryption with bcrypt
+- Password encryption with bcryptjs
+- Input validation and sanitization
 - Rate limiting and security headers
 - Type-safe database operations with Prisma
 - Global error handling
+- RESTful nested resource endpoints
+- Authorization middleware for resource ownership
 
 ## 🚀 Quick Setup
 
 ### Prerequisites
 
 - Node.js (v16+)
-- sqlite database
+- SQLite database
 - npm
 
 ### Installation
@@ -64,6 +68,9 @@ A modern RESTful API for a blog application built with Node.js, Express, and Typ
 
    # Run database migrations
    npx prisma migrate dev
+   
+   # Optional: Open Prisma Studio to view data
+   npx prisma studio
    ```
 
 5. **Start the application**
@@ -85,26 +92,28 @@ The API will be available at `http://localhost:3000`
 
 - `POST /api/v1/auth/sign-up` - Register new user
 - `POST /api/v1/auth/sign-in` - User login
-- `PATCH /api/v1/auth/reset-password` - User reset password
+- `PATCH /api/v1/auth/reset-password` - Reset user password
 
 ### Users
 
-- `GET /api/v1/users` - Get user profile (protected)
+- `GET /api/v1/users/:id` - Get user profile
+- `PATCH /api/v1/users/:id` - Update user profile (protected, own profile only)
+- `DELETE /api/v1/users/:id` - Delete user account (protected, own profile only)
 
 ### Posts
 
 - `GET /api/v1/posts` - Get all posts
 - `POST /api/v1/posts` - Create post (protected)
-- `GET /api/v1/posts/:id` - Get post by ID
-- `PUT /api/v1/posts/:id` - Update post (protected)
-- `DELETE /api/v1/posts/:id` - Delete post (protected)
+- `GET /api/v1/posts/:id` - Get post by ID with comments
+- `PATCH /api/v1/posts/:id` - Update post (protected, author only)
+- `DELETE /api/v1/posts/:id` - Delete post (protected, author only)
 
 ### Comments
 
-- `GET /api/v1/comments/post/:postId` - Get all comments for a post
-- `POST /api/v1/comments/post/:postId` - Create a comment (protected)
-- `PATCH /api/v1/comments/:id` - Update a comment (protected)
-- `DELETE /api/v1/comments/:id` - Delete a comment (protected)
+- `GET /api/v1/posts/:postId/comments` - Get all comments for a post
+- `POST /api/v1/posts/:postId/comments` - Create a comment (protected)
+- `PATCH /api/v1/posts/:postId/comments/:commentId` - Update a comment (protected, author only)
+- `DELETE /api/v1/posts/:postId/comments/:commentId` - Delete a comment (protected, author only)
 
 ## 🔐 Authentication
 
@@ -114,16 +123,25 @@ Protected routes require a JWT token in the Authorization header:
 Authorization: Bearer <your-jwt-token>
 ```
 
+**Authorization Levels:**
+- **Public**: Anyone can access (GET posts, GET comments)
+- **Authenticated**: Requires valid JWT token (POST posts/comments)
+- **Owner Only**: User can only modify their own resources (UPDATE/DELETE posts/comments/profile)
+
 ## 📁 Project Structure
 
 ```
 src/
-├── config/           # Environment configuration
-├── controllers/      # Route handlers
-├── middleware/       # Custom middleware
-├── prisma/          # Database client
-├── routes/          # API routes
-├── utils/           # Utility functions
-├── app.ts           # Express app setup
-└── index.ts         # Server entry point
+├── config/              # Environment configuration
+├── controllers/         # Route handlers
+├── middleware/          # Custom middleware
+│   ├── authentication/  # JWT authentication
+│   ├── authorization/   # Resource ownership checks
+├── prisma/             # Database client
+├── routes/             # API routes
+├── utils/              # Utility functions
+│   └── validation/
+├── generated/          # Prisma generated client
+├── app.ts             # Express app setup
+└── index.ts           # Server entry point
 ```

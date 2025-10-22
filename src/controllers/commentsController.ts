@@ -2,13 +2,14 @@ import { Request, Response, NextFunction } from "express";
 import prisma from "../prisma/prismaClient";
 
 export const createComment = async (req: Request, res: Response, next: NextFunction) => {
-  const { postId, content } = req.body;
+  const { content } = req.body;
+  const { postId } = req.params;
   const userId = req.user?.id;
 
   try {
     const newComment = await prisma.comment.create({
       data: {
-        post: { connect: { id: postId } },
+        post: { connect: { id: Number(postId) } },
         content,
         author: { connect: { id: userId! } },
       },
@@ -33,11 +34,11 @@ export const getCommentsByPost = async (req: Request, res: Response, next: NextF
 };
 
 export const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
-  const { commentId } = req.params;
+  const { commentId, postId } = req.params;
 
   try {
     await prisma.comment.delete({
-      where: { id: Number(commentId) },
+      where: { id: Number(commentId), postId: Number(postId) },
     });
     res.status(204).json({ success: true });
   } catch (error) {
@@ -46,12 +47,12 @@ export const deleteComment = async (req: Request, res: Response, next: NextFunct
 };
 
 export const updateComment = async (req: Request, res: Response, next: NextFunction) => {
-  const { commentId } = req.params;
+  const { commentId, postId } = req.params;
   const { content } = req.body;
 
   try {
     const updatedComment = await prisma.comment.update({
-      where: { id: Number(commentId) },
+      where: { id: Number(commentId), postId: Number(postId) },
       data: { content },
     });
     res.status(200).json({ success: true, data: updatedComment });

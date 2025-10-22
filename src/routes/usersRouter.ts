@@ -6,7 +6,7 @@ import { validateUserUpdate } from "../utils/validation/validation";
 
 const userRouter = Router();
 
-userRouter.get("/:id", authMiddleware, getUser);
+userRouter.get("/:id", getUser);
 userRouter.patch("/:id", authMiddleware, validateUserUpdate, checkUserOwnership, updateUser);
 userRouter.delete("/:id", authMiddleware, checkUserOwnership, deleteUser);
 

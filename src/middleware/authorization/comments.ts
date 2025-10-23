@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import prisma from "../../prisma/prismaClient";
+import prisma from "@prisma/prismaClient";
 
 export const checkCommentOwnership = async (req: Request, res: Response, next: NextFunction) => {
   const { commentId } = req.params;

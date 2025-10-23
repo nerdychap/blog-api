@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { resetPassword, signIn, signUp } from "../controllers/authController";
+import { resetPassword, signIn, signUp } from "@controllers/authController";
 import {
   validatePasswordReset,
   validateUserLogin,
   validateUserRegistration,
-} from "../utils/validation/validation";
+} from "@utils/validation/validation";
 
 const authRouter = Router();
 

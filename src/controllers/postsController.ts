@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import prisma from "../prisma/prismaClient";
+import prisma from "@prisma/prismaClient";
 
 export const getPosts = async (_req: Request, res: Response, next: NextFunction) => {
   try {

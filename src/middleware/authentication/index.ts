@@ -15,7 +15,9 @@ declare global {
 const authenticationMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    const authHeaderToken = authHeader && authHeader.split(" ")[1];
+    const signedCookieToken = req.signedCookies.authToken;
+    const token = authHeaderToken || signedCookieToken;
 
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });

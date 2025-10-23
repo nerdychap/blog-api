@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "@config/env.config";
+import { COOKIE_MAX_AGE_IN_DAYS, IS_PRODUCTION, JWT_SECRET } from "@config/env.config";
 import prisma from "@prisma/prismaClient";
 import { comparePassword, hashPassword } from "@utils/passwordUtils";
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
   const { email, firstName, lastName, password } = req.body;
@@ -13,7 +13,7 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
     });
 
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(409).json({ message: "Email already registered to another account" });
     }
 
     const hashedPassword = await hashPassword(password);
@@ -25,10 +25,18 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
         lastName,
         password: hashedPassword,
       },
-      omit: { password: true },
+      select: {
+        email: true,
+        firstName: true,
+        lastName: true,
+      },
     });
 
-    res.status(201).json({ success: true, data: { user } });
+    res.status(201).json({
+      success: true,
+      data: { user },
+      message: "User signed up successfully. Please sign in to continue.",
+    });
   } catch (error) {
     next(error);
   }
@@ -43,16 +51,24 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
     });
 
     if (!user) {
-      return res.status(400).json({ message: "Email is not registered" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const isPasswordValid = await comparePassword(password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).json({ message: "Incorrect password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET!, {
       expiresIn: "6d",
+    });
+
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      signed: true,
+      maxAge: COOKIE_MAX_AGE_IN_DAYS,
+      sameSite: "strict",
+      secure: IS_PRODUCTION,
     });
 
     res.json({
@@ -67,6 +83,21 @@ export const signIn = async (req: Request, res: Response, next: NextFunction) =>
         },
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const signOut = async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.clearCookie("authToken", {
+      httpOnly: true,
+      signed: true,
+      sameSite: "strict",
+      secure: IS_PRODUCTION,
+    });
+
+    res.json({ success: true, message: "Signed out successfully" });
   } catch (error) {
     next(error);
   }

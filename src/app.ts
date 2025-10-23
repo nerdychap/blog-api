@@ -3,9 +3,12 @@ import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import globalErrorMiddleware from "@middleware/globalErrorMiddleware";
 import router from "@routes/index";
+import cookieParser from "cookie-parser";
+import { COOKIE_SIGNING_SECRET } from "./config/env.config";
 
 const app = express();
 
+app.use(cookieParser(COOKIE_SIGNING_SECRET));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());

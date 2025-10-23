@@ -92,6 +92,7 @@ The API will be available at `http://localhost:3000`
 
 - `POST /api/v1/auth/sign-up` - Register new user
 - `POST /api/v1/auth/sign-in` - User login
+- `POST /api/v1/auth/sign-out` - User logout (protected)
 - `PATCH /api/v1/auth/reset-password` - Reset user password
 
 ### Users

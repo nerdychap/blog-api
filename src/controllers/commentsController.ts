@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import prisma from "../prisma/prismaClient";
+import prisma from "@prisma/prismaClient";
 
 export const createComment = async (req: Request, res: Response, next: NextFunction) => {
   const { content } = req.body;

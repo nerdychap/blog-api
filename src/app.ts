@@ -1,8 +1,8 @@
 import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-import globalErrorMiddleware from "./middleware/globalErrorMiddleware";
-import router from "./routes";
+import globalErrorMiddleware from "@middleware/globalErrorMiddleware";
+import router from "@routes/index";
 
 const app = express();
 

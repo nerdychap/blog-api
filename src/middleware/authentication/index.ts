@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../config/env.config";
-import prisma from "../../prisma/prismaClient";
-import { User } from "../../generated/prisma";
+import { JWT_SECRET } from "@config/env.config";
+import prisma from "@prisma/prismaClient";
+import { User } from "@generated/prisma";
 
 declare global {
   namespace Express {

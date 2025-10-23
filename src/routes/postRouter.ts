@@ -1,24 +1,24 @@
-import { validateComment, validatePost } from "./../utils/validation/validation";
+import { validateComment, validatePost } from "@utils/validation/validation";
 import { Router } from "express";
 import {
   createComment,
   deleteComment,
   getCommentsByPost,
   updateComment,
-} from "../controllers/commentsController";
+} from "@controllers/commentsController";
 import {
   createPost,
   deletePost,
   getPostById,
   getPosts,
   updatePost,
-} from "../controllers/postsController";
-import authenticationMiddleware from "../middleware/authentication";
+} from "@controllers/postsController";
+import authenticationMiddleware from "@middleware/authentication";
 import {
   checkCommentOwnership,
   validateCommentPostAssociation,
-} from "../middleware/authorization/comments";
-import { checkPostOwnership } from "../middleware/authorization/posts";
+} from "@middleware/authorization/comments";
+import { checkPostOwnership } from "@middleware/authorization/posts";
 
 const postRouter = Router();
 

@@ -8,6 +8,7 @@ const envConfig = {
   COOKIE_SIGNING_SECRET: process.env.COOKIE_SIGNING_SECRET,
   COOKIE_MAX_AGE_IN_DAYS: Number(process.env.COOKIE_MAX_AGE_IN_DAYS),
   IS_PRODUCTION: process.env.NODE_ENV === "production",
+  CORS_ALLOWED_ORIGINS: process.env.CORS_ALLOWED_ORIGINS?.split(",") || [],
 };
 
 if (!process.env.JWT_SECRET) {
@@ -31,4 +32,5 @@ export const {
   COOKIE_SIGNING_SECRET,
   COOKIE_MAX_AGE_IN_DAYS,
   IS_PRODUCTION,
+  CORS_ALLOWED_ORIGINS,
 } = envConfig;

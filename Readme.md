@@ -12,7 +12,7 @@ A modern RESTful API for a blog application built with Node.js, Express, and Typ
 - **Authentication**: JWT (JSON Web Tokens)
 - **Password Hashing**: bcryptjs
 - **Validation**: express-validator
-- **Security**: Helmet, Rate Limiting
+- **Security**: Helmet, Rate Limiting, CORS
 
 ## ✨ Features
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { resetPassword, signIn, signOut, signUp } from "@controllers/authController";
+import { refreshToken, resetPassword, signIn, signOut, signUp } from "@controllers/authController";
 import {
   validatePasswordReset,
   validateUserLogin,
@@ -13,5 +13,6 @@ authRouter.post("/sign-up", validateUserRegistration, signUp);
 authRouter.post("/sign-in", validateUserLogin, signIn);
 authRouter.post("/sign-out", authenticationMiddleware, signOut);
 authRouter.patch("/reset-password", validatePasswordReset, resetPassword);
+authRouter.post("/refresh-token", refreshToken);
 
 export default authRouter;

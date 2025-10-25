@@ -11,7 +11,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
     });
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, message: "User not found" });
     }
 
     return res.json({ success: true, data: user });
@@ -28,13 +28,15 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   });
 
   if (!userExists) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ success: false, message: "User not found" });
   }
 
   const userId = req.user?.id;
 
   if (userId !== Number(id)) {
-    return res.status(403).json({ message: "You can only update your own profile" });
+    return res
+      .status(403)
+      .json({ success: false, message: "You can only update your own profile" });
   }
 
   try {
@@ -60,7 +62,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
   });
 
   if (!userExists) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ success: false, message: "User not found" });
   }
 
   try {

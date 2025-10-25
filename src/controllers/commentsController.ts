@@ -36,11 +36,19 @@ export const getCommentsByPost = async (req: Request, res: Response, next: NextF
 export const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
   const { commentId, postId } = req.params;
 
+  const commentExists = await prisma.comment.findUnique({
+    where: { id: Number(commentId) },
+  });
+
+  if (!commentExists) {
+    return res.status(404).json({ success: false, message: "Comment not found" });
+  }
+
   try {
     await prisma.comment.delete({
       where: { id: Number(commentId), postId: Number(postId) },
     });
-    res.status(204).json({ success: true });
+    res.status(204).json({ success: true, data: commentExists });
   } catch (error) {
     next(error);
   }

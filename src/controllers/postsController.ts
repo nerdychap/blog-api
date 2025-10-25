@@ -20,7 +20,7 @@ export const getPostById = async (req: Request, res: Response, next: NextFunctio
     });
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ success: false, message: "Post not found" });
     }
 
     res.json({ success: true, data: post });
@@ -35,7 +35,7 @@ export const createPost = async (req: Request, res: Response, next: NextFunction
   const id = req.user?.id;
 
   if (!id) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
   try {
@@ -79,11 +79,13 @@ export const deletePost = async (req: Request, res: Response, next: NextFunction
     });
 
     if (!postExists) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({ success: false, message: "Post not found" });
     }
     const userId = req.user?.id;
     if (postExists.authorId !== userId) {
-      return res.status(403).json({ message: "You can only delete your own posts" });
+      return res
+        .status(403)
+        .json({ success: false, message: "You can only delete your own posts" });
     }
 
     await prisma.post.delete({

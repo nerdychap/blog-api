@@ -23,22 +23,33 @@ model Post {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  firstName String
-  lastName  String
-  email     String    @unique
-  password  String
-  createdAt DateTime  @default(now())
-  posts     Post[]
-  comments  Comment[]
+  id            Int            @id @default(autoincrement())
+  firstName     String
+  lastName      String
+  email         String         @unique
+  password      String
+  createdAt     DateTime       @default(now())
+  posts         Post[]
+  comments      Comment[]
+  refreshTokens RefreshToken[]
 }
 
 model Comment {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   content   String
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
   postId    Int
   authorId  Int
-  post      Post      @relation(fields: [postId], references: [id])
-  author    User      @relation(fields: [authorId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id])
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  isRevoked Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
 }

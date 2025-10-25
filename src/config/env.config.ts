@@ -4,6 +4,7 @@ const envConfig = {
   PORT: process.env.PORT || 5000,
   JWT_SECRET: process.env.JWT_SECRET,
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN,
+  JWT_SECRET_REFRESH: process.env.JWT_SECRET_REFRESH,
   NODE_ENV: process.env.NODE_ENV || "development",
   COOKIE_SIGNING_SECRET: process.env.COOKIE_SIGNING_SECRET,
   COOKIE_MAX_AGE_IN_DAYS: Number(process.env.COOKIE_MAX_AGE_IN_DAYS),
@@ -23,6 +24,9 @@ if (!process.env.COOKIE_SIGNING_SECRET) {
 if (!process.env.COOKIE_MAX_AGE_IN_DAYS) {
   throw new Error("Missing critical environment variable: COOKIE_MAX_AGE_IN_DAYS");
 }
+if (!process.env.JWT_SECRET_REFRESH) {
+  throw new Error("Missing critical environment variable: JWT_SECRET_REFRESH");
+}
 
 export const {
   PORT,
@@ -33,4 +37,5 @@ export const {
   COOKIE_MAX_AGE_IN_DAYS,
   IS_PRODUCTION,
   CORS_ALLOWED_ORIGINS,
+  JWT_SECRET_REFRESH,
 } = envConfig;
